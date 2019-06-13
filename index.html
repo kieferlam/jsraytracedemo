@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.10.3/math.min.js"></script>
     <script src="raytrace.js"></script>
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <style>
-    #rtCanvas{
-        display: inline-block;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .content-container{
+            display: flex;
+        }
+
+        #rtCanvas {
+            display: inline-block;
+        }
+
+        .tracer-form {
+            display: inline-block;
+            width: 480px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            padding: 3em;
+        }
     </style>
 
 </head>
 
-<body style="background: darkslategray">
+<body style="background: rgb(236, 236, 236)">
 
-    <canvas id="rtCanvas" width="500" height="500"></canvas>
+    <div class="content-container">
 
-    <div><input id="spheresInput" type="textarea" /><button onclick="runClicked()">Run</button></div>
+        <canvas id="rtCanvas" width="500" height="500"></canvas>
+
+        <div class="tracer-form">
+            <div class="form-group">
+                <h2 class="display-4">Viewport Size</h2>
+                <label>Width: </label><input class="form-control form-control-lg" id="viewportWidthInput"
+                    type="number" />
+                <label>Height: </label><input class="form-control form-control-lg" id="viewportHeightInput"
+                    type="number" />
+            </div>
+            <div class="form-group">
+                <h2 class="display-4">Spheres</h2>
+                <input class="form-control" id="spheresInput" type="textarea" />
+            </div>
+            <button class="btn btn-primary" onclick="runClicked()">Trace</button>
+        </div>
+
+    </div>
 
 </body>
 
