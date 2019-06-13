@@ -176,9 +176,10 @@ function traceray(ro, rd){
 }
 
 function trace(ctx){
+    var wh = viewport[0] / viewport[1];
     for(var x = 0; x < viewport[0]; ++x){
         for(var y = 0; y < viewport[1]; ++y){
-            var rayOrigin = math.matrix([(x / viewport[0]) - 0.5, (y / viewport[1]) - 0.5, screenDistance]);
+            var rayOrigin = math.matrix([((x / viewport[0]) - 0.5) * wh, (y / viewport[1]) - 0.5, screenDistance]);
             var rayDirection = rayOrigin;
 
             var result = traceray(rayOrigin, rayDirection);
@@ -203,12 +204,55 @@ function trace(ctx){
 }
 
 window.onload = function(){
-    
+    var sphereInput = document.getElementById('spheresInput');
+    sphereInput.value = stringifySpheres();
+
+    var wInput = document.getElementById('viewportWidthInput');
+    var hInput = document.getElementById('viewportHeightInput');
+
+    var canvas = document.getElementById('rtCanvas');
+    wInput.value = canvas.width;
+    hInput.value = canvas.height;
+
+    // runClicked();
+}
+
+function stringifySpheres(){
+    var obj = [];
+    Spheres.forEach(s => {
+        var t = s;
+        var center = [];
+        for(var i = 0; i < math.size(t.center).get([0]); ++i){
+            center.push(t.center.get([i]));
+        }
+        t.center = center;
+        obj.push(t);
+    });
+    return JSON.stringify(obj, null, 2);
+}
+
+function parseSpheres(){
+    var input = document.getElementById('spheresInput');
+    var obj = JSON.parse(input.value);
+    Spheres = [];
+    obj.forEach(s =>{
+        var t = s;
+        t.center = math.matrix(t.center);
+        Spheres.push(t);
+    });
+}
+
+function runClicked(){
     var canvasEl = document.getElementById('rtCanvas');
-    viewport[0] = canvasEl.width;
-    viewport[1] = canvasEl.height;
+    var wInput = document.getElementById('viewportWidthInput');
+    var hInput = document.getElementById('viewportHeightInput');
+    canvasEl.width = wInput.value;
+    canvasEl.height = hInput.value;
+    viewport[0] = wInput.value;
+    viewport[1] = hInput.value;
     var ctx = canvasEl.getContext('2d');
 
+    parseSpheres();
+
     trace(ctx);
-    
 }
