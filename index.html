@@ -5,11 +5,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.10.3/math.min.js"></script>
     <script src="raytrace.js"></script>
 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+    #rtCanvas{
+        display: inline-block;
+    }
+    </style>
+
 </head>
 
 <body style="background: darkslategray">
 
     <canvas id="rtCanvas" width="500" height="500"></canvas>
+
+    <div><input id="spheresInput" type="textarea" /><button onclick="runClicked()">Run</button></div>
 
 </body>
 
