@@ -214,6 +214,8 @@ window.onload = function(){
     wInput.value = canvas.width;
     hInput.value = canvas.height;
 
+    
+
     // runClicked();
 }
 

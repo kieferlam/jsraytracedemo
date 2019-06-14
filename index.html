@@ -18,6 +18,7 @@
 
         .content-container{
             display: flex;
+            flex-wrap: wrap;
         }
 
         #rtCanvas {
@@ -26,10 +27,13 @@
 
         .tracer-form {
             display: inline-block;
-            width: 480px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 4px;
             padding: 3em;
+        }
+
+        .tracer-form textarea{
+            resize: both;
         }
     </style>
 
@@ -39,7 +43,7 @@
 
     <div class="content-container">
 
-        <div>
+        <div id="canvasContainer">
             <canvas id="rtCanvas" width="500" height="500"></canvas>
         </div>
 
