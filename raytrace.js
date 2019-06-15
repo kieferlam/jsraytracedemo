@@ -28,10 +28,24 @@ var Light = {
     center: math.matrix([2, 5, 10])
 };
 
+/**
+ * Linear interpolation between a and b with strength f.
+ * f of 0.0 => a
+ * f of 1.0 => b
+ * @param {Number} a 
+ * @param {Number} b 
+ * @param {Number} f 
+ */
 function lerp(a, b, f){
     return a + (b - a) * f;
 }
 
+/**
+ * Runs linear interpolation on arrays a and b.
+ * @param {Array<Number>} a 
+ * @param {Array<Number>} b 
+ * @param {Number} f 
+ */
 function lerpa(a, b, f){
     if(!Array.isArray(a) || !Array.isArray(b)) return console.error('Parameter a and b must be arrays.');
     if(a.length != b.length) return console.error('Array Lerp: array lengths must be equal.');
@@ -66,6 +80,11 @@ function length(a){
     return math.sqrt(lengthSq(a));
 }
 
+/**
+ * Calculates the vector from a to b.
+ * @param {Vector} a 
+ * @param {Vector} b 
+ */
 function vecto(a, b){
     return math.matrix([b.get([0]) - a.get([0]), b.get([1]) - a.get([1]), b.get([2]) - a.get([2])]);
 }
@@ -74,7 +93,18 @@ function normalise(a){
     return math.multiply(a, 1.0 / length(a));
 }
 
-// Origin, Direction, Sphere Center, Radius
+/**
+ * Finds the intersection between a line and a sphere.
+ * The result is an object with properties:
+ *  • minT: Closest T value to the line origin.
+ *  • min: Minimum intersection point to the line origin.
+ *  • max: Maximum intersection point to the line origin.
+ *  • intersect: True if there is at least 1 intersection. False otherwise.
+ * @param {Vector} o (Line Origin)
+ * @param {Vector} d (Line Direction)
+ * @param {Point} center (Sphere Center)
+ * @param {Number} radius (Sphere Radius)
+ */
 function line_sphere(o, d, center, radius){
     var aminc = vecto(center, o);
     var a = dot(d, d);
@@ -116,6 +146,16 @@ function line_sphere(o, d, center, radius){
     };
 }
 
+/**
+ * Finds the intersection between a line and a plane.
+ * The result is an object with properties:
+ *  • point: Intersection point.
+ *  • intersect: True if there is at least 1 intersection. False otherwise.
+ * @param {Vector} o (Line Origin)
+ * @param {Vector} d (Line Direction)
+ * @param {Point} center (Plane Center)
+ * @param {Vector} normal (Plane Normal)
+ */
 function line_plane(o, d, center, normal){
     var denom = dot(normal, d);
     if(math.abs(denom) < 0.001) return {intersect: false};
@@ -127,6 +167,12 @@ function line_plane(o, d, center, normal){
     return {intersect: true, point: math.add(o, math.multiply(d, t)), T: t};
 }
 
+/**
+ * Ray trace function.
+ * Returns an object with the properties of the results of the ray trace.
+ * @param {Vector} ro (Ray Origin)
+ * @param {Vector} rd (Ray Direction)
+ */
 function traceray(ro, rd){
     var plane = line_plane(ro, rd, math.matrix([0, -2, 0]), math.matrix([0, 1, 0]));
 
@@ -203,6 +249,8 @@ function trace(ctx){
     }
 }
 
+/****** END OF RAY TRACING FUNCTIONS ******/
+
 window.onload = function(){
     var sphereInput = document.getElementById('spheresInput');
     sphereInput.value = stringifySpheres();
@@ -213,8 +261,6 @@ window.onload = function(){
     var canvas = document.getElementById('rtCanvas');
     wInput.value = canvas.width;
     hInput.value = canvas.height;
-
-    
 
     // runClicked();
 }
